@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+<h2>Welcome, {{ user.username }}</h2>
+<p>Email: {{ user.email }}</p>
+<p>Address: {{ user.address }}</p>
+<p>Phone: {{ user.phone }}</p>
+</div>
+{% endblock %}

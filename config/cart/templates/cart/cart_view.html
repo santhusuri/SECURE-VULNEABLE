@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Your Cart{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Your Shopping Cart</h2>
+
+{% if cart %}
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for id, item in cart.items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <!-- td>{{ item.qty }}</td -->
+            <td>
+                <form action="{% url 'cart:update_quantity' id %}" method="post" style="display: inline-flex; align-items: center;">
+                {% csrf_token %}
+                <!-- Decrease quantity button -->
+                <button type="submit" name="action" value="decrease" class="qty-btn">−</button>
+
+                <!-- Display current quantity -->
+                <input type="text" name="qty" value="{{ item.qty }}" size="2" readonly style="text-align: center; border: none; background: transparent; width: 30px;"/>
+
+                <!-- Increase quantity button -->
+                <button type="submit" name="action" value="increase" class="qty-btn">+</button>
+                </form>
+            </td>
+
+            <td>${{ item.price }}</td>
+            <td>${{ item.qty|floatformat:2|add:item.price }}</td>
+            <td>
+                <!-- Remove button in a POST form -->
+                <form action="{% url 'cart:remove_from_cart' id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-remove">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><strong>Total:</strong> ${{ total }}</p>
+
+<!-- Clear cart button in a POST form -->
+<form action="{% url 'cart:clear_cart' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-clear">Clear Cart</button>
+</form>
+
+<!-- Proceed to checkout as a link styled as button -->
+<a href="{% url 'orders:checkout' %}" class="btn btn-checkout">Proceed to Checkout</a>
+<!-- Continue shopping link -->
+<a href="{% url 'products:product_list' %}" class="btn btn-continue">Continue Shopping</a>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+
+{% endblock %}

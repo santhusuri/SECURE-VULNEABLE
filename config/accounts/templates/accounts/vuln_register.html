@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Vulnerable Registration{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/vuln_register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Vulnerable Registration Lab</h2>
+    <p>Passwords are stored in plain text for this lab (DON'T use in real life!)</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>Username:</label>
+        <input type="text" name="username" placeholder="Enter username" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" placeholder="Enter email" required>
+
+        <label>Password:</label>
+        <input type="text" name="password" placeholder="Enter password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p><a href="{% url 'accounts:login' %}">Go to Vulnerable Login</a></p>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

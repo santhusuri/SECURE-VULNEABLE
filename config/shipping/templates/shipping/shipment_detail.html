@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Shipment Details{% endblock %}
+
+{%load static%}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shipment_details.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Shipment Details</h2>
+<p><strong>Order ID:</strong> {{ shipment.order.id }}</p>
+<p><strong>Tracking Number:</strong> {{ shipment.tracking_number }}</p>
+<p><strong>Carrier:</strong> {{ shipment.carrier }}</p>
+<p><strong>Estimated Delivery:</strong> {{ shipment.estimated_delivery }}</p>
+<p><strong>Shipped Date:</strong> {{ shipment.shipped_date|default:"Not yet shipped" }}</p>
+<p><strong>Status:</strong> {{ shipment.status }}</p>
+{% endblock %}

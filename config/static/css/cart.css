@@ -1,0 +1,211 @@
+/* Cart Page Styling */
+
+/* Heading */
+h2 {
+    text-align: center;
+    margin: 2.5rem auto 1.5rem;
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+}
+
+/* Cart Table */
+table {
+    width: 90%;
+    max-width: 900px;
+    margin: 2rem auto 3rem;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid #007BFF; /* Outer border */
+    overflow: hidden;
+}
+
+/* Table Cells Borders */
+th, td {
+    border: 1px solid #007BFF; /* Inner cell borders */
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 1rem;
+}
+
+/* Table Head */
+thead {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+thead th {
+    font-weight: 700;
+}
+
+/* Table Body */
+tbody td {
+    vertical-align: middle;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+/* Align price and subtotal to right */
+tbody td:nth-child(3),
+tbody td:nth-child(4) {
+    text-align: right;
+}
+
+/* Row hover effect */
+tbody tr:hover {
+    background-color: #f5faff;
+}
+
+/* Buttons: Common style */
+.btn {
+    display: inline-block;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.5rem 1.3rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 0.5rem 0.5rem 1.2rem 0;
+    transition: background-color 0.3s ease;
+}
+
+/* Remove button style (red) */
+.btn-remove {
+    background-color: #dc3545;
+}
+
+.btn-remove:hover {
+    background-color: #a71d2a;
+}
+
+/* Clear cart button style (gray) */
+.btn-clear {
+    background-color: #6c757d;
+}
+
+.btn-clear:hover {
+    background-color: #565e64;
+}
+
+/* Proceed to checkout button style (blue) */
+.btn-checkout {
+    background-color: #007BFF;
+    padding: 0.55rem 1.6rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+.btn-checkout:hover {
+    background-color: #0056b3;
+}
+
+.btn-continue {
+    background-color: #014912; /* Green */
+    padding: 0.55rem 1.6rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-continue:hover {
+    background-color: #012e0b;
+}
+
+/* Quantity buttons */
+.qty-btn {
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    line-height: 28px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0 4px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.qty-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Quantity input style */
+.qty-input {
+    width: 48px;
+    height: 32px;
+    text-align: center;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 4px;
+    user-select: none;
+}
+
+/* Empty Cart Message */
+p {
+    text-align: center;
+    margin-top: 3.5rem;
+    font-size: 1.25rem;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+/* Responsive Table for smaller screens */
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    tbody td {
+        border: none;
+        padding-left: 50%;
+        text-align: left;
+        position: relative;
+    }
+
+    tbody td::before {
+        position: absolute;
+        left: 1rem;
+        top: 0.75rem;
+        white-space: nowrap;
+        font-weight: 600;
+        color: #666;
+        content: attr(data-label);
+    }
+
+    tbody td:nth-child(3),
+    tbody td:nth-child(4) {
+        text-align: left;
+    }
+}
+
+
+

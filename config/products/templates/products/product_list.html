@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+<style>
+/* Vulnerable mode alert styling */
+.vulnerable-alert {
+    background-color: #ffe5e5;
+    color: #b22222;
+    border: 1px solid #b22222;
+    padding: 0.9rem 1.4rem;
+    border-radius: 6px;
+    max-width: 400px;
+    margin: 1rem auto 2rem auto;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if query %}
+    <h2>Search Results{% if query %} for "{{ query }}"{% endif %}</h2>
+
+    {% if mode == 'vulnerable' %}
+        <div class="vulnerable-alert">
+            ⚠️ You are currently in <span style="text-transform: uppercase;">VULNERABLE</span> mode. Search inputs are not validated and may expose security risks.
+        </div>
+    {% endif %}
+
+    {% if results %}
+        <div class="product-grid">
+            {% for product in results %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h4>{{ product.name }}</h4>
+                    <p>${{ product.price }}</p>
+                    <a href="{% url 'cart:add_to_cart' product.id %}">Add to Cart</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found matching your search.</p>
+    {% endif %}
+{% else %}
+    <div class="category-sidebar">
+        <h3>Categories</h3>
+        <ul>
+            {% for category in categories %}
+                <li><a href="?category={{ category.slug }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h4>{{ product.name }}</h4>
+                <p>${{ product.price }}</p>
+                <a href="{% url 'cart:add_to_cart' product.id %}">Add to Cart</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

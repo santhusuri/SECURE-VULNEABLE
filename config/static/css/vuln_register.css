@@ -1,0 +1,102 @@
+/* Container for vulnerable registration lab */
+.login-container {
+    max-width: 430px;
+    margin: 3rem auto;
+    padding: 2rem 2.5rem;
+    background-color: #fff8f5;
+    border-radius: 12px;
+    box-shadow: 0 2px 14px rgba(210, 90, 60, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4a2a27;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 2rem;
+    color: #d45b43;
+    margin-bottom: 1.1rem;
+}
+
+.login-container p {
+    font-size: 1rem;
+    margin-bottom: 1.4rem;
+    color: #6b4238;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1.6rem;
+}
+
+.login-container label {
+    text-align: left;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #a94442;
+}
+
+.login-container input[type="text"],
+.login-container input[type="email"] {
+    padding: 8px 12px;
+    margin-bottom: 1.2rem;
+    border: 1px solid #d45b43;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="email"]:focus {
+    border-color: #b03e29;
+    outline: none;
+}
+
+.login-container button[type="submit"] {
+    background-color: #d45b43;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.7rem 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #a23929;
+}
+
+.login-container .messages {
+    margin-top: 1.4rem;
+}
+
+.login-container .messages p {
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.login-container .messages p.error {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.login-container .messages p.success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.login-container .messages p.warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffecb5;
+}

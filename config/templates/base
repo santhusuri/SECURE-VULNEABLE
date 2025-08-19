@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <!-- ================= Navbar ================= -->
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'products:product_list' %}">MyShop</a>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'products:product_list' %}">Products</a>
+            <a href="{% url 'cart:cart_view' %}">Cart</a>
+            <a href="{% url 'orders:checkout' %}">Orders</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'accounts:profile_view' %}">Profile</a>
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}">Register</a>
+            {% endif %}
+        </div>
+
+        <!-- Toggle Panel -->
+        <div class="toggle-panel">
+            <form action="{% url 'toggle_mode' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" id="toggle-mode-btn" class="toggle-btn">
+                    {% if request.session.SECURE_MODE %}
+                        🔒 Secure Mode
+                    {% else %}
+                        ⚠️ Vulnerable Mode
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- ================= Main Container ================= -->
+    <div class="container">
+
+        <!-- Fixed Search Bar at the Top -->
+        <form method="get" action="{% url 'products:product_search' %}" class="fixed-search-form" style="margin-bottom: 1rem;">
+            <input type="text" name="q" placeholder="Search products..." required 
+                   class="fixed-search-input" style="width: 300px; padding: 6px 10px; font-size: 1rem;">
+            <button type="submit" class="fixed-search-button" style="padding: 6px 12px; font-size: 1rem;">
+                Search
+            </button>
+        </form>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- ================= Footer ================= -->
+    <footer class="footer">
+        <p>&copy; {{ year|default:"2025" }} MyShop — All rights reserved.</p>
+    </footer>
+
+    <!-- JS file -->
+    <script src="{% static 'js/vuln_lab.js' %}"></script>
+
+</body>
+</html>

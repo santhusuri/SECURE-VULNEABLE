@@ -1,0 +1,112 @@
+/* Container for the vulnerable login lab */
+.login-container {
+    max-width: 430px;
+    margin: 3rem auto;
+    padding: 2rem 2.5rem;
+    background-color: #fff6f6;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(205, 0, 0, 0.13);
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #333;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 2rem;
+    color: #d7263d;
+    margin-bottom: 1rem;
+}
+
+.login-container p {
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    color: #444;
+}
+
+.login-container code {
+    background: #fbeee6;
+    padding: 2px 7px;
+    border-radius: 5px;
+    color: #e76f51;
+    font-size: 0.95em;
+    margin-left: 2px;
+}
+
+/* Form styling */
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 1.8rem;
+}
+
+.login-container label {
+    text-align: left;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    color: #b82d2d;
+}
+
+.login-container input[type="text"] {
+    padding: 8px 12px;
+    margin-bottom: 1.1rem;
+    border: 1px solid #d7263d;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.login-container input[type="text"]:focus {
+    border-color: #bf2335;
+    outline: none;
+}
+
+/* Submit button */
+.login-container button[type="submit"] {
+    background-color: #d7263d;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.7rem 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.login-container button[type="submit"]:hover {
+    background-color: #a71d2a;
+}
+
+/* Messages */
+.login-container .messages {
+    margin-top: 1.4rem;
+}
+
+.login-container .messages p {
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.login-container .messages p.error, 
+.login-container .messages p.errorlist {
+    background-color: #ffebee;
+    color: #c61f1f;
+    border: 1px solid #f5c6cb;
+}
+
+.login-container .messages p.success {
+    background-color: #e6ffed;
+    color: #228c4d;
+    border: 1px solid #b7eb8f;
+}
+
+/* Link styling */
+.login-container a {
+    text-decoration: none;
+    color: #007bff;
+}

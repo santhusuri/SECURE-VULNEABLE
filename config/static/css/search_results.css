@@ -1,0 +1,77 @@
+/* Search results page container */
+h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: 2rem 0 1.5rem 0;
+    color: #222;
+}
+
+/* Container for product list */
+.product-list {
+    max-width: 900px;
+    margin: 0 auto 3rem auto;
+}
+
+/* Individual product card */
+.product-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    align-items: center;
+}
+
+.product-card img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.product-card h3 {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.3rem;
+    color: #333;
+    flex-grow: 1;
+}
+
+.product-card p {
+    margin: 0 0 0.6rem 0;
+    font-size: 1rem;
+    color: #555;
+    flex-grow: 2;
+}
+
+.product-card strong {
+    font-size: 1.1rem;
+    color: #007BFF;
+    font-weight: 700;
+    margin-right: 1rem;
+}
+
+.product-card a {
+    padding: 0.45rem 1rem;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.product-card a:hover {
+    background-color: #0056b3;
+}
+
+/* Text for no results */
+p {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 3rem;
+    font-family: Arial, sans-serif;
+}

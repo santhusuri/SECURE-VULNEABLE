@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }}{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+{% block content %}
+
+<h2>{{ product.name }}</h2>
+<p>${{ product.price }}</p>
+<p>{{ product.description }}</p>
+
+{% if mode == 'secure' %}
+<form action="{% url 'cart_add' product.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Add to Cart</button>
+</form>
+{% else %}
+<form action="{% url 'cart_add' product.id %}" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="not_valid_token">
+    <button type="submit">Add to Cart</button>
+</form>
+{% endif %}
+
+{% endblock %}

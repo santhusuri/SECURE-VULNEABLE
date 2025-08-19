@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Order Success{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>✅ Order Completed</h2>
+<p>Thank you for your purchase!</p>
+<a href="{% url 'products:product_list' %}">Continue Shopping</a>
+
+{% if order.id %}
+    <p>
+      <a href="{% url 'shipping:shipping_details' order.id %}">View Shipping Details</a>
+    </p>
+{% endif %}
+{% endblock %}

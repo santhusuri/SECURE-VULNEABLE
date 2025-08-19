@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Vulnerable Checkout{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/vuln_checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>⚠ Vulnerable Checkout (Simulation)</h2>
+<p>This page intentionally skips validation. An attacker could change the total amount.</p>
+
+<table>
+{% for id, item in cart.items %}
+<tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.qty }}</td>
+    <td>${{ item.price }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<form method="POST">
+    {% csrf_token %}
+    <label>Enter Amount to Pay: </label>
+    <input type="text" name="amount" value="{{ total }}">
+    <button type="submit">Pay Now</button>
+</form>
+{% endblock %}

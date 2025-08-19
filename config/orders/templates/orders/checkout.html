@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Secure Checkout{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+{% block content %}
+<h2>Secure Checkout</h2>
+
+<table>
+{% for id, item in cart.items %}
+<tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.qty }}</td>
+    <td>${{ item.price }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<p>Total: ${{ total }}</p>
+
+<form id="payment-form">
+    <div id="card-element"></div>
+    <button type="submit">Pay Now</button>
+</form>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    const elements = stripe.elements();
+    const card = elements.create("card");
+    card.mount("#card-element");
+
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+            "{{ client_secret }}",
+            { payment_method: { card: card } }
+        );
+
+        if (error) {
+            alert(error.message);
+        } else {
+            // Payment succeeded, create order on backend via AJAX
+            fetch("{% url 'orders:create_order' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+                body: JSON.stringify({
+                    payment_intent_id: paymentIntent.id,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.order_id) {
+                    window.location.href = `/orders/success/${data.order_id}/`;
+                } else {
+                    alert("Failed to create order. Please contact support.");
+                }
+            })
+            .catch(() => alert("Network error while creating order."));
+        }
+    });
+</script>
+{% endblock %}

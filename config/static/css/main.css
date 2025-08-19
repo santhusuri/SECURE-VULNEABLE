@@ -1,0 +1,141 @@
+/* Intro section container */
+.intro-section {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.intro-section h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.8rem;
+    color: #222;
+    font-weight: 700;
+}
+
+.intro-section p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* Promo grid layout */
+.promo-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+/* Individual promo items */
+.promo-item {
+    background-color: #f9fafb;
+    border-radius: 12px;
+    padding: 2rem 2.4rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    width: 280px;
+    transition: transform 0.3s ease;
+}
+
+.promo-item:hover {
+    transform: translateY(-6px);
+}
+
+.promo-item h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: #007BFF;
+    font-weight: 700;
+}
+
+.promo-item p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Call to action container */
+.cta p {
+    font-size: 1.3rem;
+    color: #444;
+}
+
+.cta-btn {
+    display: inline-block;
+    margin: 0 0.7rem;
+    padding: 0.7rem 1.8rem;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #0056b3;
+}
+
+/* About section styling */
+.about-section {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 1.5rem 2rem;
+    background-color: #f9fbfc;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    text-align: center;
+
+    /* Animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+/* Heading style */
+.about-section h2 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    color: #007BFF;
+    font-weight: 700;
+}
+
+/* Paragraph style */
+.about-section p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #555;
+    margin: 0 auto;
+    max-width: 700px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 1rem 1.2rem;
+        max-width: 95%;
+    }
+
+    .about-section h2 {
+        font-size: 2rem;
+    }
+
+    .about-section p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+}
+
+/* Keyframes for fade-in-up animation */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Register</h2>
+
+    {% if registered %}
+        <div class="register-success">
+            Registration complete! You can now
+            <a href="{% url 'accounts:login' %}">login here</a>.
+        </div>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}
