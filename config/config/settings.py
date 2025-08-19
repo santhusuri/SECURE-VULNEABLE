@@ -78,7 +78,3 @@ VULNERABLE_LABS = {
     'weak_password_hash': True
 }
 
-
-STRIPE_PUBLIC_KEY = "pk_test_51RwKMhJQHrTkAmKCC8L9UubCi6zH4DNrlg5suSmfEHFbfphLk1qirtarAct8SGrney8JdV0AaV8J73RXfcu8vIQc00DqkG4Uiq"
-STRIPE_SECRET_KEY = "sk_test_51RwKMhJQHrTkAmKCB3pqysbatgXmnjLhSnnVE5CfKIvViLVvZAEfFHYBUSSdwTZaGGnRFhgEenVOVRQtqIstnwzU007evgPepL"
-STRIPE_WEBHOOK_SECRET = "whsec_..."
