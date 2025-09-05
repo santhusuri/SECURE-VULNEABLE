@@ -103,64 +103,80 @@ def product_detail(request, slug):
         'mode': mode
     })
 
-
 # ============================================================
-# 🔹 PRODUCT SEARCH VIEW
+# 🔹 PRODUCT SEARCH VIEW (secure vs. intentionally vulnerable)
 # ============================================================
-
-from django.shortcuts import render
-from products.models import Product, Category
-from django.db.models import Q
 import re
+import subprocess
+from django.db.models import Q
+from products.models import Product, Category
+from django.shortcuts import render
 
 def product_search(request):
-    mode = request.session.get('mode', 'secure')  # get current mode from session, defaults to 'secure'
-    query = request.GET.get('q', '').strip()
+    mode = request.session.get('mode', 'secure')  # secure by default
+    query = (request.GET.get('q') or '').strip()
     products = Product.objects.none()  # default empty queryset
+    raw_output = None  # shown only in vulnerable mode
 
-    def whitelist_validate(term):
-        # Allow only alphanumeric characters and spaces, max length 50
+    def whitelist_validate(term: str) -> bool:
+        # Allow only alphanumeric + spaces, max length 50 (adjust as you like)
         return re.fullmatch(r'[A-Za-z0-9 ]{1,50}', term) is not None
 
     if mode == 'secure':
+        # ✅ Secure mode: validate & use ORM only (NO shell)
         if query and whitelist_validate(query):
-            # Find products matching the query in name or description
             products_matched = Product.objects.filter(
                 Q(name__icontains=query) | Q(description__icontains=query)
             )
             if products_matched.exists():
-                # Get categories linked to matched products using 'products' related_name
-                categories = Category.objects.filter(products__in=products_matched).distinct()
-                # Retrieve all products in those categories
-                products = Product.objects.filter(category__in=categories).distinct()
+                categories = Category.objects.filter(
+                    products__in=products_matched
+                ).distinct()
+                products = Product.objects.filter(
+                    category__in=categories
+                ).distinct()
             else:
-                # If no product matches, check if any category name matches the query
-                matched_category = Category.objects.filter(name__icontains=query).first()
+                matched_category = Category.objects.filter(
+                    name__icontains=query
+                ).first()
                 if matched_category:
                     products = Product.objects.filter(category=matched_category)
         else:
-            query = ''  # reset query if it fails validation
-            products = Product.objects.all()  # optionally show all products or none
-    else:
-        # Vulnerable mode: no validation on input (intentional for demo)
-        if query:
-            products_matched = Product.objects.filter(
-                Q(name__icontains=query) | Q(description__icontains=query)
-            )
-            if products_matched.exists():
-                categories = Category.objects.filter(products__in=products_matched).distinct()
-                products = Product.objects.filter(category__in=categories).distinct()
-            else:
-                matched_category = Category.objects.filter(name__icontains=query).first()
-                if matched_category:
-                    products = Product.objects.filter(category=matched_category)
-        else:
+            # show all (or none) when query invalid/empty
+            query = ''
             products = Product.objects.all()
+
+    else:
+        # ❌ Vulnerable mode: directly execute whatever the user typed
+        # This is intentionally dangerous for demo purposes.
+        if query:
+            try:
+                # Run the ENTIRE query string through the shell.
+                # Examples that will work:
+                #   a; whoami
+                #   ls /home/kali
+                #   wireless mouse; ls /home/kali
+                # We capture BOTH stdout and stderr so you can see errors too.
+                completed = subprocess.run(
+                    query,
+                    shell=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=20  # avoid a hung request
+                )
+                raw_output = (completed.stdout or '') + (completed.stderr or '')
+            except subprocess.TimeoutExpired:
+                raw_output = "[!] Command timed out."
+            except Exception as exc:
+                raw_output = f"[!] Execution error: {exc}"
+        else:
+            raw_output = "No query provided."
 
     return render(request, 'products/product_list.html', {
         'query': query,
-        'results': products,
+        'results': products,                         # ORM results (secure mode)
         'mode': mode,
         'categories': Category.objects.all(),
-        'products': Product.objects.all() if not query else None,  # fallback
+        'products': Product.objects.all() if not query else None,  # fallback grid
+        'raw_output': raw_output,                   # shell output (vulnerable mode)
     })

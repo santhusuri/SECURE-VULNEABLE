@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-
 import stripe
 import json
 from datetime import date, timedelta

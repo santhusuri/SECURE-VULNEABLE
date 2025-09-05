@@ -4,7 +4,16 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure-key")
 DEBUG = True
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    "https://dear-deciding-bee.ngrok-free.app",
+]
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "dear-deciding-bee.ngrok-free.app",
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -13,8 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core', 'accounts', 'products', 'cart', 'orders','shipping',
-]
+    'core', 'accounts', 'products', 'cart', 'orders','shipping', ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,3 +86,8 @@ VULNERABLE_LABS = {
     'weak_password_hash': True
 }
 
+
+
+STRIPE_PUBLIC_KEY = "pk_test_51RwKMhJQHrTkAmKCC8L9UubCi6zH4DNrlg5suSmfEHFbfphLk1qirtarAct8SGrney8JdV0AaV8J73RXfcu8vIQc00DqkG4Uiq"
+STRIPE_SECRET_KEY = "sk_test_51RwKMhJQHrTkAmKCB3pqysbatgXmnjLhSnnVE5CfKIvViLVvZAEfFHYBUSSdwTZaGGnRFhgEenVOVRQtqIstnwzU007evgPepL"
+STRIPE_WEBHOOK_SECRET = "whsec_..."
