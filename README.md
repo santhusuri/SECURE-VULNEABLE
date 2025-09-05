@@ -57,14 +57,12 @@ This project allows users to **toggle between secure and vulnerable modes** to t
     pip install -r requirements.txt
 
 
-## Usage
-
 ### Run the application:
 
 1. RUN THE SERVER 
-  ```bash
-  python manage.py runserver 8000
+   ```bash
+   python manage.py runserver 8000
 
 2. Using ngrok (optional) Expose the local app to the internet:
-  ```bash
-  ngrok http 8000  # For Django
+   ```bash
+   ngrok http 8000  # For Django
