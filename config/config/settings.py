@@ -5,13 +5,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure-key")
 DEBUG = True
 CSRF_TRUSTED_ORIGINS = [
-    "https://dear-deciding-bee.ngrok-free.app",
+    "https://a23d8c6feab0.ngrok-free.app",
 ]
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "dear-deciding-bee.ngrok-free.app",
+    "a23d8c6feab0.ngrok-free.app",
 ]
 
 
