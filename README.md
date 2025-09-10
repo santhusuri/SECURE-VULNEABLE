@@ -62,15 +62,19 @@ All attacks performed in **vulnerable mode**, including manual testing from logi
     venv\Scripts\activate      # Windows
 
 3. **Install dependencies**
+    ```bash
     pip install -r requirements.txt
 
 4. **Apply migrations**
+    ```bash
     python manage.py migrate
 
 5. **Create superuser**
+    ```bash
     python manage.py createsuperuser
 
 6. **Run the Django development server**
+    ```bash
     python manage.py runserver
 
 7.**Access the application**
