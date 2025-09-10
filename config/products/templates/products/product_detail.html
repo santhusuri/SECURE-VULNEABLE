@@ -6,20 +6,72 @@
 {% endblock %}
 {% block content %}
 
-<h2>{{ product.name }}</h2>
-<p>${{ product.price }}</p>
-<p>{{ product.description }}</p>
+<div class="product-detail">
 
-{% if mode == 'secure' %}
-<form action="{% url 'cart_add' product.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Add to Cart</button>
-</form>
-{% else %}
-<form action="{% url 'cart_add' product.id %}" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="not_valid_token">
-    <button type="submit">Add to Cart</button>
-</form>
-{% endif %}
+    <!-- Product Info -->
+    <h2>{{ product.name }}</h2>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+    <p>{{ product.description }}</p>
 
+    <hr>
+
+    <!-- Add to Cart (Secure vs Vulnerable) -->
+    {% if mode == 'secure' %}
+    <form action="{% url 'cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Add to Cart</button>
+    </form>
+    {% else %}
+    <!-- Intentionally vulnerable: CSRF bypass -->
+    <form action="{% url 'cart_add' product.id %}" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="not_valid_token">
+        <button type="submit">Add to Cart</button>
+    </form>
+    {% endif %}
+
+    <hr>
+
+    <!-- Review Form (only in secure mode) -->
+    {% if mode == 'secure' %}
+        {% if user.is_authenticated %}
+            <h2>Write a Review</h2>
+            <form method="post">
+                {% csrf_token %}
+                <textarea name="comment" rows="3" placeholder="Write your review..." required></textarea><br>
+                <label>Rating:</label>
+                <select name="rating" required>
+                    <option value="">Select</option>
+                    {% for i in "12345" %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select> /5
+                <br><br>
+                <button type="submit">Submit Review</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'accounts:login' %}">Login</a> to write a review.</p>
+        {% endif %}
+    {% endif %}
+
+    <hr>
+
+    <!-- Reviews Display -->
+    {% if mode == 'secure' %}
+        <h2>Reviews</h2>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                <li>
+                    <strong>{{ review.user.username }}</strong> ({{ review.rating }}/5)<br>
+                    {{ review.comment }}<br>
+                    <small>{{ review.created_at }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet. Be the first to review!</p>
+        {% endif %}
+    {% endif %}
+
+</div>
 {% endblock %}

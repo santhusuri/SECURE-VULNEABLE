@@ -1,0 +1,6 @@
+2025-09-10 23:20:52 | User: secure_user | SQL Injection / Command Injection Attempt: <script>alert('XSS')</script>
+2025-09-10 23:21:14 | User: secure_user | SQL Injection / Command Injection Attempt: ls
+2025-09-10 23:21:21 | User: secure_user | SQL Injection / Command Injection Attempt: mouse
+2025-09-10 23:28:31 | User: secure_user | SQL Injection / Command Injection Attempt: mouse
+2025-09-10 23:28:48 | User: ' OR '1'='1' -- | Login attempt on vulnerable login page - username: ' OR '1'='1' --
+2025-09-10 23:28:48 | User: ' OR '1'='1' -- | Successful login via vulnerable SQLi bypass

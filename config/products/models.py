@@ -1,5 +1,8 @@
 from django.db import models
+from django.conf import settings
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -28,3 +31,13 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.slug])
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # <-- use AUTH_USER_MODEL
+    rating = models.IntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user.username} on {self.product.name}"

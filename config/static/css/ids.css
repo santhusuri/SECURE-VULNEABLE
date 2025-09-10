@@ -1,0 +1,55 @@
+/* ===== IDS Dashboard Styles ===== */
+
+.ids-dashboard {
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-left: 6px solid #1d4ed8; /* blue accent for IDS */
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.ids-dashboard h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #1d4ed8; /* blue title */
+}
+
+.ids-dashboard p {
+    margin-bottom: 1rem;
+    color: #444;
+    font-size: 1rem;
+}
+
+/* ===== IDS Log Table ===== */
+
+.ids-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+}
+
+.ids-table th, .ids-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.ids-table th {
+    background-color: #e0ebff;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+.ids-table tr:nth-child(even) {
+    background-color: #f5f9ff;
+}
+
+.ids-table tr:hover {
+    background-color: #dbeafe;
+    transition: background 0.2s ease-in-out;
+}
+.ids-table .alert {
+    color: #dc2626; /* red for alerts */
+    font-weight: bold;
+}

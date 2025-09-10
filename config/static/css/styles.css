@@ -47,6 +47,17 @@ body {
     transition: background 0.2s, color 0.2s;
 }
 
+
+.nav-links a[href*="dashboard"] {
+    color: #b91c1c; /* dark red for emphasis */
+    font-weight: bold;
+}
+
+.nav-links a[href*="dashboard"]::before {
+    content: "🔒 ";
+}
+
+
 .nav-links a:hover {
     background: #0056b3;
 }

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Product Reviews{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/review.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="reviews-container">
+    <h1>All Product Reviews (Admin Only)</h1>
+
+    <table class="reviews-table">
+        <tr>
+            <th>User</th>
+            <th>Product</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+        {% for review in reviews %}
+        <tr>
+            <td><strong>{{ review.user.username }}</strong></td>
+            <td>{{ review.product.name }}</td>
+            <td><span class="rating">{{ review.rating }}/5</span></td>
+            <td>{{ review.comment }}</td>
+            <td>{{ review.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="reviews-footer">
+        Admin-only dashboard: IDs, AIRS, and product reviews are monitored here.
+    </div>
+</div>
+{% endblock %}

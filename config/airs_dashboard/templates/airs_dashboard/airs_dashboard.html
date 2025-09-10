@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AIRS Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 20px; }
+        h1 { color: #5bc0de; }
+        #logs { background: #fff; border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll; }
+        .log-entry { padding: 2px 0; border-bottom: 1px solid #eee; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>AIRS Dashboard</h1>
+    <div id="logs">
+        {% for log in logs %}
+            <div class="log-entry">{{ log }}</div>
+        {% endfor %}
+    </div>
+
+    <script>
+        async function fetchLogs() {
+            try {
+                const res = await fetch("?ajax=1");
+                const data = await res.json();
+                const logsDiv = document.getElementById("logs");
+                logsDiv.innerHTML = "";
+                data.logs.forEach(log => {
+                    const div = document.createElement("div");
+                    div.className = "log-entry";
+                    div.textContent = log;
+                    logsDiv.appendChild(div);
+                });
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+            } catch(err) {
+                console.error("Failed to fetch logs:", err);
+            }
+        }
+
+        setInterval(fetchLogs, 2000);
+    </script>
+</body>
+</html>

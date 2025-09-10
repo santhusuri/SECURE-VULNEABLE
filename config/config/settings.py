@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core', 'accounts', 'products', 'cart', 'orders','shipping', ]
+    'core', 'accounts', 'products', 'cart', 'orders','shipping','suricata','ids_dashboard','airs_dashboard',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,3 +91,8 @@ VULNERABLE_LABS = {
 STRIPE_PUBLIC_KEY = "pk_test_51RwKMhJQHrTkAmKCC8L9UubCi6zH4DNrlg5suSmfEHFbfphLk1qirtarAct8SGrney8JdV0AaV8J73RXfcu8vIQc00DqkG4Uiq"
 STRIPE_SECRET_KEY = "sk_test_51RwKMhJQHrTkAmKCB3pqysbatgXmnjLhSnnVE5CfKIvViLVvZAEfFHYBUSSdwTZaGGnRFhgEenVOVRQtqIstnwzU007evgPepL"
 STRIPE_WEBHOOK_SECRET = "whsec_..."
+
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'   # after login, send users to homepage
+LOGOUT_REDIRECT_URL = '/'  # after logout, send users to homepage

@@ -2,69 +2,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}E-Commerce{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>{% block title %}E-Commerce{% endblock %}</title>
+ <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+ <link rel="stylesheet" href="{% static 'css/main.css' %}">
+ <link rel="stylesheet" href="{% static 'css/login.css' %}">
+ {% block extra_css %}{% endblock %}
 </head>
 <body>
 
-    <!-- ================= Navbar ================= -->
-    <nav class="navbar">
-        <div class="logo">
-            <a href="{% url 'products:product_list' %}">MyShop</a>
-        </div>
-        <div class="nav-links">
-            <a href="{% url 'products:product_list' %}">Products</a>
-            <a href="{% url 'cart:cart_view' %}">Cart</a>
-            <a href="{% url 'orders:checkout' %}">Orders</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'accounts:profile_view' %}">Profile</a>
-                <a href="{% url 'accounts:logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'accounts:login' %}">Login</a>
-                <a href="{% url 'accounts:register' %}">Register</a>
-            {% endif %}
-        </div>
 
-        <!-- Toggle Panel -->
-        <div class="toggle-panel">
-            <form action="{% url 'toggle_mode' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" id="toggle-mode-btn" class="toggle-btn">
-                    {% if request.session.SECURE_MODE %}
-                        🔒 Secure Mode
-                    {% else %}
-                        ⚠️ Vulnerable Mode
-                    {% endif %}
-                </button>
-            </form>
-        </div>
-    </nav>
+ <!-- ================= Navbar ================= -->
+ <nav class="navbar">
+<div class="logo">
+<a href="{% url 'home' %}">MyShop</a>
+</div>
 
-    <!-- ================= Main Container ================= -->
-    <div class="container">
 
-        <!-- Fixed Search Bar at the Top -->
-        <form method="get" action="{% url 'products:product_search' %}" class="fixed-search-form" style="margin-bottom: 1rem;">
-            <input type="text" name="q" placeholder="Search products..." required 
-                   class="fixed-search-input" style="width: 300px; padding: 6px 10px; font-size: 1rem;">
-            <button type="submit" class="fixed-search-button" style="padding: 6px 12px; font-size: 1rem;">
-                Search
-            </button>
-        </form>
+<div class="nav-links">
+ 
+ 
+ {% if user.is_authenticated %}
+ <a href="{% url 'products:product_list' %}">Products</a>
+ <a href="{% url 'cart:cart_view' %}">Cart</a>
+ <a href="{% url 'orders:checkout' %}">Orders</a>
+<a href="{% url 'accounts:profile' %}">Profile</a>
+<a href="{% url 'accounts:logout' %}">Logout</a>
+{% else %}
+ <a href="{% url 'accounts:login' %}">Login</a>
+ <a href="{% url 'accounts:register' %}">Register</a>
+{% endif %}
+</div>
 
-        {% block content %}
-        {% endblock %}
+
+<!-- Toggle Panel --> 
+ <div class="toggle-panel">
+     <span id="vuln-label" class="vuln-label">VULNERABLE LAB ACTIVE</span> 
+     <button id="toggle-mode-btn" class="toggle-btn"></button> 
+    </div> 
+</nav>
+
+ <!-- ================= Main Container ================= -->
+<div class="container">
+
+  {% if user.is_authenticated %}
+  <!-- Fixed Search Bar at the Top: shown only when logged in -->
+  <form method="get" action="{% url 'products:product_search' %}" class="fixed-search-form" style="margin-bottom: 1rem;">
+    <input type="text" name="q" placeholder="Search products..." required class="fixed-search-input" style="width: 300px; padding: 6px 10px; font-size: 1rem;">
+    <button type="submit" class="fixed-search-button" style="padding: 6px 12px; font-size: 1rem;">Search</button>
+  </form>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</div>
+
+
+ <!-- ================= Footer ================= -->
+  <!-- Footer -->
+<footer class="main-footer">
+  <div class="footer-container">
+
+    <!-- Explore Links -->
+    <div class="footer-column">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="#about"><span>›</span> About</a></li>
+        <li><a href="#"><span>›</span> Shop</a></li>
+        <li><a href="#"><span>›</span> FAQ</a></li>
+      </ul>
     </div>
 
-    <!-- ================= Footer ================= -->
-    <footer class="footer">
-        <p>&copy; {{ year|default:"2025" }} MyShop — All rights reserved.</p>
-    </footer>
+    <!-- Useful Links -->
+    <div class="footer-column">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="#"><span>›</span> Support</a></li>
+        <li><a href="#"><span>›</span> Contact</a></li>
+      </ul>
+    </div>
 
-    <!-- JS file -->
-    <script src="{% static 'js/vuln_lab.js' %}"></script>
+  </div>
+
+  <div class="footer-bottom">
+    © {{ now|date:'Y' }} ShopSite
+  </div>
+</footer>
+
+
+
+<!-- ================= Context Variables for JS ================= -->
+ <script>
+ // ✅ Provide session mode + CSRF token to JavaScript
+ window.APP_CONTEXT = {
+ mode: "{{ request.session.mode|default:'secure' }}",
+ csrfToken: "{{ csrf_token }}"
+};
+ </script>
+
+
+ <!-- ================= JavaScript Files ================= -->
+ <script src="{% static 'js/toggle_mode.js' %}"></script>
+ <script src="{% static 'js/vuln_lab.js' %}"></script>
+
 
 </body>
 </html>

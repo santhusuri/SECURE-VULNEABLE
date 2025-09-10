@@ -1,0 +1,54 @@
+/* ===== AIRS Dashboard Styles ===== */
+
+.airs-dashboard {
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-left: 6px solid #e63946; /* red accent for alerts */
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.airs-dashboard h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #e63946; /* red title */
+}
+
+.airs-dashboard p {
+    margin-bottom: 1rem;
+    color: #555;
+    font-size: 1rem;
+}
+
+/* ===== Alert Table ===== */
+
+.airs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+}
+
+.airs-table th, .airs-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.airs-table th {
+    background-color: #fbeaea;
+    font-weight: bold;
+    color: #a4161a;
+}
+
+.airs-table tr:nth-child(even) {
+    background-color: #fff5f5;
+}
+
+.airs-table tr:hover {
+    background-color: #ffe3e3;
+    transition: background 0.2s ease-in-out;
+}
+.airs-table td {
+    color: #333;
+}

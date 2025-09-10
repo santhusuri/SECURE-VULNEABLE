@@ -1,29 +1,40 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
+from django.core.files.storage import default_storage
+
+
 
 import subprocess
 import re
+import threading
 import os
-from django.core.files.storage import default_storage
 
 
 # ======================================================
 # MODE TOGGLING (Secure / Vulnerable)
 # ======================================================
-def toggle_mode(request):
+def toggle_mode_page(request):
     """
     Toggle between 'secure' and 'vulnerable' simulation modes.
     - Stores current mode in session.
     - Redirects user back to the referring page (or product list as fallback).
     """
-    current = request.session.get('sim_mode', 'secure')
-    request.session['sim_mode'] = 'vulnerable' if current == 'secure' else 'secure'
+    current = request.session.get('mode', 'secure')
+    request.session['mode'] = 'vulnerable' if current == 'secure' else 'secure'
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('products:product_list')))
 
-    # Redirect back to where the user came from, or fallback to product_list
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('product_list')))
+def toggle_mode_api(request):
+    """
+    Toggle mode via AJAX (for JS toggle button).
+    """
+    if request.method == "POST":
+        mode = request.POST.get('mode')
+        request.session['mode'] = mode
+        return JsonResponse({"status": "ok", "mode": mode})
+    return JsonResponse({"status": "failed"}, status=400)
 
 
 # ======================================================
@@ -32,11 +43,6 @@ def toggle_mode(request):
 def search_view(request):
     """
     Demonstrates command injection vulnerability in 'vulnerable' mode.
-    - Vulnerable Mode:
-        Directly executes shell command with user input (ping).
-    - Secure Mode:
-        Validates input against regex whitelist (hostnames/IPs).
-        Executes command safely using list arguments.
     """
     mode = request.session.get('mode', 'secure')
     search_result = ''
@@ -45,10 +51,8 @@ def search_view(request):
         query = request.POST.get('query', '')
 
         if mode == 'vulnerable':
-            # -----------------------------
-            # Vulnerable: Direct raw input to shell
-            # -----------------------------
             try:
+                # Vulnerable: raw input passed to shell
                 result = subprocess.check_output(
                     f"ping -c 1 {query}",
                     shell=True, stderr=subprocess.STDOUT,
@@ -57,11 +61,8 @@ def search_view(request):
                 search_result = result
             except subprocess.CalledProcessError as e:
                 search_result = e.output
-
         else:
-            # -----------------------------
-            # Secure: Validate input + safe execution
-            # -----------------------------
+            # Secure: validate input + safe execution
             if re.fullmatch(r'[a-zA-Z0-9\.\-]+', query):
                 try:
                     result = subprocess.check_output(
@@ -82,12 +83,7 @@ def search_view(request):
 # ======================================================
 def upload_view(request):
     """
-    Demonstrates file upload handling.
-    - Vulnerable Mode:
-        Uses raw filename directly in OS command (possible injection).
-    - Secure Mode:
-        Validates filename with regex whitelist before saving.
-        Uses safe subprocess execution (list args).
+    Demonstrates file upload handling vulnerability.
     """
     mode = request.session.get('mode', 'secure')
     upload_result = ''
@@ -97,9 +93,7 @@ def upload_view(request):
         filename = request.POST.get('filename', uploaded_file.name)
 
         if mode == 'vulnerable':
-            # -----------------------------
-            # Vulnerable: Direct filename usage
-            # -----------------------------
+            # Vulnerable: raw filename usage
             save_path = default_storage.save(filename, uploaded_file)
             try:
                 result = subprocess.check_output(
@@ -110,11 +104,8 @@ def upload_view(request):
                 upload_result = result
             except subprocess.CalledProcessError as e:
                 upload_result = e.output
-
         else:
-            # -----------------------------
-            # Secure: Validate filename
-            # -----------------------------
+            # Secure: validate filename
             if re.fullmatch(r'[a-zA-Z0-9_.-]+', filename):
                 safe_path = default_storage.save(filename, uploaded_file)
                 try:
@@ -129,3 +120,27 @@ def upload_view(request):
                 messages.error(request, "Invalid filename provided.")
 
     return render(request, 'upload.html', {'upload_result': upload_result})
+
+
+from django.shortcuts import render
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+def ids_dashboard(request):
+    IDS_LOG_FILE = os.path.join(BASE_DIR, "ids_dashboard/ids.log")
+    if os.path.exists(IDS_LOG_FILE):
+        with open(IDS_LOG_FILE) as f:
+            logs = f.readlines()
+    else:
+        logs = ["No logs yet."]
+    return render(request, "ids_dashboard/ids_dashboard.html", {"logs": logs})
+
+def airs_dashboard(request):
+    AIRS_LOG_FILE = os.path.join(BASE_DIR, "airs_dashboard/airs.log")
+    if os.path.exists(AIRS_LOG_FILE):
+        with open(AIRS_LOG_FILE) as f:
+            logs = f.readlines()
+    else:
+        logs = ["No logs yet."]
+    return render(request, "airs_dashboard/airs_dashboard.html", {"logs": logs})

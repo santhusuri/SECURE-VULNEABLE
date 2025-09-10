@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}File Upload Demo{% endblock %}
+
+{% block content %}
+  <h2>File Upload {% if secure %}(Secure Mode){% else %}(Vulnerable Mode){% endif %}</h2>
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="file" required>
+      <button type="submit">Upload</button>
+  </form>
+
+  {% if result %}
+      <h3>Result:</h3>
+      <pre>{{ result }}</pre>
+  {% endif %}
+{% endblock %}
